@@ -599,8 +599,6 @@ function constraints(filePath)
 			{
 				if(params_with_constraints.indexOf(params[p]==-1))
 				{
-					for(var temp=0;temp<=999;++temp)
-					{
 						functionConstraints[funcName].constraints.push( 
 						new Constraint(
 						{
@@ -611,7 +609,6 @@ function constraints(filePath)
 							operator : "==",
 							expression: "unknown"
 						}));
-					}
 				}
 			}
 		}
