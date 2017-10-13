@@ -150,9 +150,6 @@ function generateTestCases()
 		var pathWithFileWithoutContent = _.some(constraints, {kind: 'pathWithFileWithoutContent'});
 		var fileExists = _.some(constraints, {kind: 'fileExists'});
 		var my_dictionary = {};
-		console.log('Constraints');
-		console.log(constraints);
-		console.log('\n');
 		for( var j = 0; j < constraints.length; j++ )
 		{
 			var constraint = constraints[j];
@@ -177,8 +174,6 @@ function generateTestCases()
 		}
 
 		var cp = cartesianProduct.apply(this,my_arguments);
-		console.log('CP');
-		console.log(cp);
 
 		for(var my_args in cp)
 		{
@@ -188,9 +183,7 @@ function generateTestCases()
 				args+=cp[my_args][element];
 				args+=',';
 			}
-			args = args.substring(0,args.length-1);
-			console.log('Arguments');
-			console.log(args);			
+			args = args.substring(0,args.length-1);		
 			if( pathExists || fileWithContent )
 			{
 				content += generateMockFsTestCases(pathExists, !pathWithFileWithContent, pathWithFileWithoutContent, fileExists, fileWithContent,funcName, args);
@@ -233,7 +226,6 @@ function generateMockFsTestCases (pathExists, pathWithFileWithContent, pathWithF
 	else if(pathWithFileWithoutContent)
 	{
 		for (var attrname in mockFileLibrary.pathWithFileWithoutContent) { mergedFS[attrname] = mockFileLibrary.pathWithFileWithoutContent[attrname]; }
-		console.log('Hello world');
 	}
 
 	if(fileExists)
@@ -299,7 +291,7 @@ function constraints(filePath)
 								params_with_constraints.push(param_with_constraint);
 					}
 				}
-				if( child.type === 'BinaryExpression' && (child.operator == "==" || child.operator == "!=") )
+				else if( child.type === 'BinaryExpression' && (child.operator == "==" || child.operator == "!=") )
 				{
 					if( child.left.type == 'Identifier' && params.indexOf( child.left.name ) > -1)
 					{
@@ -346,7 +338,7 @@ function constraints(filePath)
 					}
 				}
 
-				if( child.type === 'BinaryExpression' && (child.operator == "<" || child.operator == "<=") )
+				else if( child.type === 'BinaryExpression' && (child.operator == "<" || child.operator == "<=") )
 				{
 					if( child.left.type == 'Identifier' && params.indexOf( child.left.name ) > -1)
 					{
@@ -379,7 +371,7 @@ function constraints(filePath)
 					}
 				}
 
-				if( child.type === 'BinaryExpression' && (child.operator == ">" || child.operator == ">=") )
+				else if( child.type === 'BinaryExpression' && (child.operator == ">" || child.operator == ">=") )
 				{
 					if( child.left.type == 'Identifier' && params.indexOf( child.left.name ) > -1)
 					{
@@ -412,7 +404,7 @@ function constraints(filePath)
 					}
 				}
 
-				if( child.type == "CallExpression" && 
+				else if( child.type == "CallExpression" && 
 					 child.callee.property &&
 					 child.callee.property.name =="readFileSync" )
 				{
@@ -457,16 +449,11 @@ function constraints(filePath)
 					}
 				}
 
-				if( child.type == "CallExpression" &&
+				else if( child.type == "CallExpression" &&
 					 child.callee.property &&
 					 child.callee.property.name =="existsSync")
 				{
 					my_ident_name = child["arguments"][0]["name"];
-					if(my_ident_name.indexOf('f')==-1) console.log('mydir');
-					else console.log('myfile');
-					console.log(my_ident_name);
-				
-
 
 					if(my_ident_name.indexOf('f')==-1)
 					{
@@ -564,7 +551,7 @@ function constraints(filePath)
 						}
 					}
 				}
-				if( child.type == "CallExpression" &&
+				else if( child.type == "CallExpression" &&
 					 child.callee.property &&
 					 child.callee.property.name =="indexOf")
 				{
@@ -591,10 +578,38 @@ function constraints(filePath)
 
 					}
 				}
+				else if( child.type == "CallExpression" &&
+					 child.callee && child.callee.name == "format")
+				{
+					for( var p = 0; p < params.length; p++)
+					{
+						if(child["arguments"][0]["name"] == params[p])
+						{
+							for( var x = 100; x<=999; ++x)
+							{
+								functionConstraints[funcName].constraints.push( 
+								new Constraint(
+								{
+									ident: params[p],
+									value:  "\'" + x + " xxx-xxxx\'",
+									funcName: funcName,
+									kind: "integer",
+									operator : "==",
+									expression: buf.substring(child["range"][0], child["range"][1])
+								}));
+								var param_with_constraint = params[p];
+								if(params_with_constraints.indexOf(param_with_constraint) == -1)
+									params_with_constraints.push(param_with_constraint);
+							}
+							var param_with_constraint = params[p];
+							if(params_with_constraints.indexOf(param_with_constraint) == -1)
+								params_with_constraints.push(param_with_constraint);
+							break;
+						}
+					}
+				}
 
 			});
-
-			console.log( functionConstraints[funcName]);
 			for( var p =0; p < params.length; p++ )
 			{
 				if(params_with_constraints.indexOf(params[p]==-1))
@@ -613,8 +628,6 @@ function constraints(filePath)
 			}
 		}
 	});
-	console.log('FC');
-	console.log(functionConstraints.format.constraints);
 }
 
 function traverse(object, visitor) 
