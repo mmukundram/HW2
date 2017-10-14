@@ -1,4 +1,4 @@
-## Setup
+### Setup
 
 	git clone https://github.com/mmukundram/HW2.git
 	cd HW2
@@ -14,4 +14,4 @@
 
 ### Generated coverage report
 
-	(!Coverage)[https://github.com/mmukundram/HW2/blob/master/Screenshot.png]
+	(!Coverage)[[https://github.com/mmukundram/HW2/blob/master/Screenshot.png]]
