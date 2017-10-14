@@ -1,6 +1,9 @@
-# DevOps CSC 519 HW 2
+## DevOps CSC519 HW 2
+
 Mukundram Muraliram
+
 mmurali5@ncsu.edu
+
 200158869
 
 ### Setup
