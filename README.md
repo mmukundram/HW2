@@ -14,4 +14,4 @@
 
 ### Generated coverage report
 
-	(!Coverage)[[https://github.com/mmukundram/HW2/blob/master/Screenshot.png]]
+	[[https://github.com/mmukundram/HW2/blob/master/Screenshot.png]]
