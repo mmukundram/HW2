@@ -1,3 +1,8 @@
+# DevOps CSC 519 HW 2
+Mukundram Muraliram
+mmurali5@ncsu.edu
+200158869
+
 ### Setup
 
 	git clone https://github.com/mmukundram/HW2.git
@@ -14,4 +19,4 @@
 
 ### Generated coverage report
 
-	![Coverage](Screenshot.png)
+![Coverage](Screenshot.png)
