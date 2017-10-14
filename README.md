@@ -1,4 +1,4 @@
-## Setup and Background
+## Setup
 
 	git clone https://github.com/mmukundram/HW2.git
 	cd HW2
@@ -8,6 +8,10 @@
 
 	node main.js <target_file> 
 
-##### Getting a simple coverage report
+### Getting a simple coverage report
 
 	node_modules/.bin/istanbul cover test.js
+
+### Generated coverage report
+
+	(!Coverage)[https://github.com/mmukundram/HW2/blob/master/Screenshot.png]
